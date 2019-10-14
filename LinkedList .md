@@ -3,7 +3,8 @@
 
 如图所示 LinkedList 底层是基于双向链表实现的，也是实现了 List 接口，所以也拥有 List 的一些特点(JDK1.7/8 之后取消了循环，修改为双向链表)。
 
-<b>新增方法</b>
+###<b>新增方法</b>
+
     public boolean add(E e) {
         linkLast(e);
         return true;
@@ -25,6 +26,7 @@
 可见每次插入都是移动指针，和 ArrayList 的拷贝数组来说效率要高上不少。
 
 <b>查询方法</b>
+
     public E get(int index) {
         checkElementIndex(index);
         return node(index).item;
