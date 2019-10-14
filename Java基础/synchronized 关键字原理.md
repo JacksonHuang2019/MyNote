@@ -14,4 +14,44 @@
  流程图如下:
  ![](https://camo.githubusercontent.com/2755b62baffab9f16d90a8d2d101b2fa18b0873b/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744e6337396c7931666e3237666b6c30376a6a333165383068796e306e2e6a7067)
   
+  通过一段代码来演示:
+  `    public static void main(String[] args) {
+           synchronized (Synchronize.class){
+               System.out.println("Synchronize");
+           }
+       }`
   
+  使用 javap -c Synchronize 可以查看编译之后的具体信息。
+  
+  `public class com.crossoverjie.synchronize.Synchronize {
+     public com.crossoverjie.synchronize.Synchronize();
+       Code:
+          0: aload_0
+          1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+          4: return
+   
+     public static void main(java.lang.String[]);
+       Code:
+          0: ldc           #2                  // class com/crossoverjie/synchronize/Synchronize
+          2: dup
+          3: astore_1
+          **4: monitorenter**
+          5: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+          8: ldc           #4                  // String Synchronize
+         10: invokevirtual #5                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+         13: aload_1
+         **14: monitorexit**
+         15: goto          23
+         18: astore_2
+         19: aload_1
+         20: monitorexit
+         21: aload_2
+         22: athrow
+         23: return
+       Exception table:
+          from    to  target type
+              5    15    18   any
+             18    21    18   any
+   }`
+   
+ 可以看到在同步块的入口和出口分别有 monitorenter,monitorexit 指令。
