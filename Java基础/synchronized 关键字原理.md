@@ -26,9 +26,9 @@
   
   使用 javap -c Synchronize 可以查看编译之后的具体信息。
   
-  public class com.crossoverjie.synchronize.Synchronize {
-  public com.crossoverjie.synchronize.Synchronize();
-    Code:
+  `public class com.crossoverjie.synchronize.Synchronize {
+     public com.crossoverjie.synchronize.Synchronize();
+       Code:
        0: aload_0
        1: invokespecial #1                  // Method java/lang/Object."<init>":()V
        4: return
@@ -55,7 +55,7 @@
           from    to  target type
               5    15    18   any
              18    21    18   any
-   }
+   }`
    
  可以看到在同步块的入口和出口分别有 monitorenter,monitorexit 指令。
 
