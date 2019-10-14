@@ -2,7 +2,7 @@
 
 <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/ArrayList.md"><b>ArrayList</b></a>
 
-<a href="https://github.com/JacksonHuang2019/MyNote/blob/master/ArrayList.md"><b>LinkedList</b></a>
+<a href="https://github.com/JacksonHuang2019/MyNote/blob/master/LinkedList%20.md"><b>LinkedList</b></a>
 
 
 <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/ArrayList.md"><b>HashMap</b></a>
