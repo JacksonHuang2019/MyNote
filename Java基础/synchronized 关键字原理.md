@@ -16,6 +16,7 @@
   
   通过一段代码来演示:
   
+  
   `    public static void main(String[] args) {
            synchronized (Synchronize.class){
                System.out.println("Synchronize");
