@@ -15,6 +15,7 @@
  ![](https://camo.githubusercontent.com/2755b62baffab9f16d90a8d2d101b2fa18b0873b/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744e6337396c7931666e3237666b6c30376a6a333165383068796e306e2e6a7067)
   
   通过一段代码来演示:
+  
   `    public static void main(String[] args) {
            synchronized (Synchronize.class){
                System.out.println("Synchronize");
