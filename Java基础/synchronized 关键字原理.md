@@ -26,12 +26,12 @@
   
   使用 javap -c Synchronize 可以查看编译之后的具体信息。
   
-  `public class com.crossoverjie.synchronize.Synchronize {
-     public com.crossoverjie.synchronize.Synchronize();
-       Code:
-          0: aload_0
-          1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-          4: return
+  public class com.crossoverjie.synchronize.Synchronize {
+  public com.crossoverjie.synchronize.Synchronize();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
    
      public static void main(java.lang.String[]);
        Code:
