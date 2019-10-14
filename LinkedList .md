@@ -3,7 +3,7 @@
 
 如图所示 LinkedList 底层是基于双向链表实现的，也是实现了 List 接口，所以也拥有 List 的一些特点(JDK1.7/8 之后取消了循环，修改为双向链表)。
 
-###新增方法###
+<b>新增方法</b>
     public boolean add(E e) {
         linkLast(e);
         return true;
@@ -24,7 +24,7 @@
     }
 可见每次插入都是移动指针，和 ArrayList 的拷贝数组来说效率要高上不少。
 
-###查询方法###
+<b>查询方法</b>
     public E get(int index) {
         checkElementIndex(index);
         return node(index).item;
@@ -51,7 +51,7 @@ node()会以O(n/2)的性能去获取一个结点
 如果索引值大于链表大小的一半，那么将从尾结点开始遍历
 这样的效率是非常低的，特别是当 index 越接近 size 的中间值时。
 
-#####总结：#####
+总结：
 
 LinkedList 插入，删除都是移动指针效率很高。
 查找需要进行遍历查询，效率较低。
