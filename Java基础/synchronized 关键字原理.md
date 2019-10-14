@@ -55,7 +55,7 @@
           from    to  target type
               5    15    18   any
              18    21    18   any
-   }`
+   }
    
  可以看到在同步块的入口和出口分别有 monitorenter,monitorexit 指令。
 
