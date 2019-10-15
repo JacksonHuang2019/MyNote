@@ -29,4 +29,7 @@ JMM 只是保证了基本的原子性，但类似于 i++ 之类的操作，看�
           return unsafe.compareAndSwapLong(this, valueOffset, expect, update);
       }`
       
+ 其逻辑就是判断当前的值是否被更新过，是否等于 current，如果等于就说明没有更新过然后将当前的值更新为 next，如果不等于则返回false 进入循环，直到更新成功为止。
  
+ 还有其中的 get() 方法也很关键，返回的是当前的值，当前值用了 volatile 关键词修饰，保证了内存可见性。
+ ` private volatile int value;`
