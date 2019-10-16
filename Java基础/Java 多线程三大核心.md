@@ -93,3 +93,20 @@ synchronized和加锁也能能保证可见性，实现原理就是在释放锁�
  * 将 singleton 对象指向分配的内存地址。(3)
  
 加上 volatile 是为了让以上的三步操作顺序执行，反之有可能第三步在第二步之前被执行就有可能导致某个线程拿到的单例对象还没有初始化，以致于使用报错。
+`
+
+    private volatile boolean flag ;
+     private void run(){
+         new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 while (flag) {
+                     doSomeThing();
+                 }
+             }
+         });
+     }
+ 
+     private void stop(){
+         flag = false ;
+     }`
