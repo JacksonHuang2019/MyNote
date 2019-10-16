@@ -65,9 +65,9 @@ synchronized和加锁也能能保证可见性，实现原理就是在释放锁�
  ### volatile 的应用
  #### 双重检查锁的单例模式
  可以用 volatile 实现一个双重检查锁的单例模式：
- 
- `public class Singleton {
- 
+ `
+  
+     public class Singleton {   
           private static volatile Singleton singleton;
   
           private Singleton() {
