@@ -110,3 +110,9 @@ synchronized和加锁也能能保证可见性，实现原理就是在释放锁�
      private void stop(){
          flag = false ;
      }`
+     
+这里如果没有用 volatile 来修饰 flag ，就有可能其中一个线程调用了 stop()方法修改了 flag 的值并不会立即刷新到主内存中，导致这个循环并不会立即停止。
+
+这里主要利用的是 volatile 的内存可见性。
+总结一下:
+* volatile 关键字只能保证可见性，顺序性，不能保证原子性。
