@@ -64,3 +64,24 @@ synchronized和加锁也能能保证可见性，实现原理就是在释放锁�
  其中有一条就是适用于 volatile 关键字的，针对于 volatile 关键字的写操作肯定是在读操作之前，也就是说读取的值肯定是最新的。
  ### volatile 的应用
  #### 双重检查锁的单例模式
+ 可以用 volatile 实现一个双重检查锁的单例模式：
+ 
+ `public class Singleton {
+ 
+          private static volatile Singleton singleton;
+  
+          private Singleton() {
+          }
+  
+          public static Singleton getInstance() {
+              if (singleton == null) {
+                  synchronized (Singleton.class) {
+                      if (singleton == null) {
+                          singleton = new Singleton();
+                      }
+                  }
+              }
+              return singleton;
+          }
+  
+      }`
