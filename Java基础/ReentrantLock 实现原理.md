@@ -23,7 +23,6 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
 默认一般使用非公平锁，它的效率和吞吐量都比公平锁高的多(后面会分析具体原因)。
 ### 获取锁
 通常的使用方式如下:
-
 `   
     
     private ReentrantLock lock = new ReentrantLock();
@@ -40,7 +39,6 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
     
 #### 公平锁获取锁
 首先看下获取锁的过程：
-
 `
     public void lock() {
         sync.lock();
