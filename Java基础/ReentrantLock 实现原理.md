@@ -39,8 +39,8 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
     
 #### 公平锁获取锁
 首先看下获取锁的过程：
+`   
 
-`
     public void lock() {
         sync.lock();
     }`
