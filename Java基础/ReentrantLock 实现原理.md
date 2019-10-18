@@ -39,8 +39,20 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
     
 #### 公平锁获取锁
 首先看下获取锁的过程：
-`   
 
     public void lock() {
         sync.lock();
-    }`
+    }
+
+可以看到是使用sync的方法，而这个方法是一个抽象方法，具体是由其子类(FairSync)来实现的，以下是公平锁的实现:
+
+    final void lock() {
+            acquire(1);
+    }
+        
+    //AbstractQueuedSynchronizer 中的 acquire()
+    public final void acquire(int arg) {
+    if (!tryAcquire(arg) &&
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+    }
