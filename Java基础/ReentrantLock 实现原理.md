@@ -71,11 +71,11 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
         }
         else if (current == getExclusiveOwnerThread()) {
             int nextc = c + acquires;
-            if (nextc < 0)
+            if (nextc < 0){
                 throw new Error("Maximum lock count exceeded");
             setState(nextc);
             return true;
-        }
+            }
         return false;
         }
     }
