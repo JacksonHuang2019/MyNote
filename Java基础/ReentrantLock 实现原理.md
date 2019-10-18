@@ -24,7 +24,8 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
 ### 获取锁
 通常的使用方式如下:
 
-`
+`   
+    
     private ReentrantLock lock = new ReentrantLock();
     public void run() {
         lock.lock();
