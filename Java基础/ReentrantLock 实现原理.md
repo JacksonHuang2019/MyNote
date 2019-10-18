@@ -56,3 +56,26 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
         acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
         selfInterrupt();
     }
+
+第一步是尝试获取锁(tryAcquire(arg)),这个也是由其子类实现：
+    
+    protected final boolean tryAcquire(int acquires) {
+        final Thread current = Thread.currentThread();
+        int c = getState();
+        if (c == 0) {
+            if (!hasQueuedPredecessors() &&
+                compareAndSetState(0, acquires)) {
+                setExclusiveOwnerThread(current);
+                return true;
+            }
+        }
+        else if (current == getExclusiveOwnerThread()) {
+            int nextc = c + acquires;
+            if (nextc < 0)
+                throw new Error("Maximum lock count exceeded");
+            setState(nextc);
+            return true;
+        }
+        return false;
+        }
+    }
