@@ -33,4 +33,25 @@
 
 首先是创建线程的 api：
     
-        ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) 
+        ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler)
+        
+     这几个核心参数的作用：
+     
+     * corePoolSize 为线程池的基本大小。
+     * maximumPoolSize 为线程池最大线程大小。
+     * keepAliveTime 和 unit 则是线程空闲后的存活时间。
+     * workQueue 用于存放任务的阻塞队列。
+     * handler 当队列和最大线程池都满了之后的饱和策略。
+    
+ 了解了这几个参数再来看看实际的运用。
+ 
+ 通常我们都是使用:
+  
+    threadPool.execute(new Job());
+ 
+ 这样的方式来提交一个任务到线程池中，所以核心的逻辑就是 execute() 函数了。
+ 
+ 在具体分析之前先了解下线程池中所定义的状态，这些状态都和线程的执行密切相关：
+ 
+![](https://camo.githubusercontent.com/3217f32a3a8f10bf9b6f5076c7e1d44a81ad19a9/68747470733a2f2f7773332e73696e61696d672e636e2f6c617267652f303036744b665463677931667471316b73357179776a33306a6e303369337a612e6a7067)
+   
