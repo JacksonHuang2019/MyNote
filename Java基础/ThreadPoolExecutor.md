@@ -20,3 +20,17 @@
 * Executors.newSingleThreadExecutor()：创建单个线程的线程池。
 
 其实看这三种方式创建的源码就会发现：
+
+    public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                      60L, TimeUnit.SECONDS,
+                                      new SynchronousQueue<Runnable>());
+    }
+
+实际上还是利用 ThreadPoolExecutor 类实现的。
+
+所以我们重点来看下 ThreadPoolExecutor 是怎么玩的。
+
+首先是创建线程的 api：
+    
+        ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) 
