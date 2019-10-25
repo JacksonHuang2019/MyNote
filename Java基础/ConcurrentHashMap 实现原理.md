@@ -55,3 +55,8 @@ ConcurrentHashMap 的 get 方法是非常高效的，因为整个过程都不需
 也将 1.7 中存放数据的 HashEntry 改为 Node，但作用都是相同的。
 
 其中的 val next 都用了 volatile 修饰，保证了可见性。
+#### put 方法
+重点来看看 put 函数：
+
+![](https://camo.githubusercontent.com/ae7357642ca2ceaf42967ec90d2970262f1114e6/68747470733a2f2f7773332e73696e61696d672e636e2f6c617267652f303036744e633739677931667468727a386a6c6f386a33306f633072627465332e6a7067)
+
