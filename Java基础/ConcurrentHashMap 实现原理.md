@@ -4,6 +4,7 @@
 因此需要支持线程安全的并发容器 ConcurrentHashMap 。
 ### JDK1.7 实现
 #### 数据结构
+[](https://camo.githubusercontent.com/e2637a8234d36b2a6cec70b95bae5cbac7baf3d9/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744e6337396c7931666e326635706778696e6a333064773037333074372e6a7067)
 如图所示，是由 Segment 数组、HashEntry 数组组成，和 HashMap 一样，仍然是数组加链表组成。
 
 ConcurrentHashMap 采用了分段锁技术，其中 Segment 继承于 ReentrantLock。不会像 HashTable 那样不管是 put 还是 get 操作都需要做同步处理，理论上 ConcurrentHashMap 支持 CurrencyLevel (Segment 数组数量)的线程并发。每当一个线程占用锁访问一个 Segment 时，不会影响到其他的 Segment。
@@ -28,3 +29,17 @@ ConcurrentHashMap 的 get 方法是非常高效的，因为整个过程都不需
             this.next = next;
         }
     }
+
+虽然 HashEntry 中的 value 是用 volatile 关键词修饰的，但是并不能保证并发的原子性，所以 put 操作时仍然需要加锁处理。
+
+首先也是通过 Key 的 Hash 定位到具体的 Segment，在 put 之前会进行一次扩容校验。这里比 HashMap 要好的一点是：HashMap 是插入元素之后再看是否需要扩容，有可能扩容之后后续就没有插入就浪费了本次扩容(扩容非常消耗性能)。
+
+而 ConcurrentHashMap 不一样，它是在将数据插入之前检查是否需要扩容，之后再做插入操作。
+
+##### size 方法
+每个 Segment 都有一个 volatile 修饰的全局变量 count ,求整个 ConcurrentHashMap 的 size 时很明显就是将所有的 count 累加即可。但是 volatile 修饰的变量却不能保证多线程的原子性，所有直接累加很容易出现并发问题。
+
+但如果每次调用 size 方法将其余的修改操作加锁效率也很低。所以做法是先尝试两次将 count 累加，如果容器的 count 发生了变化再加锁来统计 size。
+
+至于 ConcurrentHashMap 是如何知道在统计时大小发生了变化呢，每个 Segment 都有一个 modCount 变量，每当进行一次 put remove 等操作，modCount 将会 +1。只要 modCount 发生了变化就认为容器的大小也在发生变化。
+### JDK1.8 实现
