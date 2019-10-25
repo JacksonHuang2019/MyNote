@@ -49,3 +49,9 @@ ConcurrentHashMap 的 get 方法是非常高效的，因为整个过程都不需
 1.8 中的 ConcurrentHashMap 数据结构和实现与 1.7 还是有着明显的差异。
 
 其中抛弃了原有的 Segment 分段锁，而采用了 CAS + synchronized 来保证并发安全性。
+
+![](https://camo.githubusercontent.com/c7c3c93ec1fad75980e8450c1f29e24ae763e2a0/68747470733a2f2f7773332e73696e61696d672e636e2f6c617267652f303036744e633739677931667468713738653567716a33306e7230396d6d7a392e6a7067)
+
+也将 1.7 中存放数据的 HashEntry 改为 Node，但作用都是相同的。
+
+其中的 val next 都用了 volatile 修饰，保证了可见性。
