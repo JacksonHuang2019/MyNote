@@ -4,7 +4,7 @@
 因此需要支持线程安全的并发容器 ConcurrentHashMap 。
 ### JDK1.7 实现
 #### 数据结构
-[](https://camo.githubusercontent.com/e2637a8234d36b2a6cec70b95bae5cbac7baf3d9/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744e6337396c7931666e326635706778696e6a333064773037333074372e6a7067)
+![](https://camo.githubusercontent.com/e2637a8234d36b2a6cec70b95bae5cbac7baf3d9/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744e6337396c7931666e326635706778696e6a333064773037333074372e6a7067)
 如图所示，是由 Segment 数组、HashEntry 数组组成，和 HashMap 一样，仍然是数组加链表组成。
 
 ConcurrentHashMap 采用了分段锁技术，其中 Segment 继承于 ReentrantLock。不会像 HashTable 那样不管是 put 还是 get 操作都需要做同步处理，理论上 ConcurrentHashMap 支持 CurrencyLevel (Segment 数组数量)的线程并发。每当一个线程占用锁访问一个 Segment 时，不会影响到其他的 Segment。
