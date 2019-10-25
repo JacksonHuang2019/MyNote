@@ -44,3 +44,8 @@ ConcurrentHashMap 的 get 方法是非常高效的，因为整个过程都不需
 
 至于 ConcurrentHashMap 是如何知道在统计时大小发生了变化呢，每个 Segment 都有一个 modCount 变量，每当进行一次 put remove 等操作，modCount 将会 +1。只要 modCount 发生了变化就认为容器的大小也在发生变化。
 ### JDK1.8 实现
+![](https://camo.githubusercontent.com/a325b017599ac5dd7516c273e55f451779c2b93e/68747470733a2f2f7773332e73696e61696d672e636e2f6c617267652f303036744e6337396779316674687076346f6462736a33306c703064726d78722e6a7067)
+
+1.8 中的 ConcurrentHashMap 数据结构和实现与 1.7 还是有着明显的差异。
+
+其中抛弃了原有的 Segment 分段锁，而采用了 CAS + synchronized 来保证并发安全性。
