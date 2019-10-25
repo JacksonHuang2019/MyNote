@@ -15,3 +15,8 @@
 那在 Java 中又是如何实现的呢？
 
 在 JDK 1.5 之后推出了相关的 api，常见的创建线程池方式有以下几种：
+* Executors.newCachedThreadPool()：无限线程池。
+* Executors.newFixedThreadPool(nThreads)：创建固定大小的线程池。
+* Executors.newSingleThreadExecutor()：创建单个线程的线程池。
+
+其实看这三种方式创建的源码就会发现：
