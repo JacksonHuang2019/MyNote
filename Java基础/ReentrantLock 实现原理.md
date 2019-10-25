@@ -82,3 +82,8 @@ ReentrantLock 分为公平锁和非公平锁，可以通过构造方法来指定
  
 首先会判断 AQS 中的 state 是否等于0，0表示目前没有其他线程获得锁，当前线程就可以尝试获取锁。 
 
+注意:尝试之前会利用 hasQueuedPredecessors() 方法来判断 AQS 的队列中中是否有其他线程，如果有则不会尝试获取锁(<b>这是公平锁特有的情况</b>)。
+
+如果队列中没有线程就利用 CAS 来将 AQS 中的 state 修改为1，也就是获取锁，获取成功则将当前线程置为获得锁的独占线程(setExclusiveOwnerThread(current))。
+
+如果 state 大于 0 时，说明锁已经被获取了，则需要判断获取锁的线程是否为当前线程(ReentrantLock 支持重入)，是则需要将 state + 1，并将值更新。
