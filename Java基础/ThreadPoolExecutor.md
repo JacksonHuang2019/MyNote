@@ -99,3 +99,19 @@
   
  >  两个方法都会中断线程，用户可自行判断是否需要响应中断。
   
+  shutdownNow() 要更简单粗暴，可以根据实际场景选择不同的方法。
+  
+  我通常是按照以下方式关闭线程池的：
+  
+          long start = System.currentTimeMillis();
+          for (int i = 0; i <= 5; i++) {
+              pool.execute(new Job());
+          }
+  
+          pool.shutdown();
+  
+          while (!pool.awaitTermination(1, TimeUnit.SECONDS)) {
+              LOGGER.info("线程还在执行。。。");
+          }
+          long end = System.currentTimeMillis();
+          LOGGER.info("一共处理了【{}】", (end - start));
