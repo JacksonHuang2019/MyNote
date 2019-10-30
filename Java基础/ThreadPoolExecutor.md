@@ -142,3 +142,19 @@
             }
                              
         }
+   
+  使用时：
+        
+         @Resource(name = "consumerQueueThreadPool")
+            private ExecutorService consumerQueueThreadPool;
+        
+        
+            @Override
+            public void execute() {
+        
+                //消费队列
+                for (int i = 0; i < 5; i++) {
+                    consumerQueueThreadPool.execute(new ConsumerQueueThread());
+                }
+        
+            }
