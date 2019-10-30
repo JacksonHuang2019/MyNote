@@ -308,3 +308,55 @@
         
         
         }
+        
+  api 特别简洁易懂，具体详情请查看官方文档。
+  
+  然后模拟运行：
+  
+        public static void main(String[] args) throws Exception {
+                CommandOrder commandPhone = new CommandOrder("手机");
+                CommandOrder command = new CommandOrder("电视");
+        
+        
+                //阻塞方式执行
+                String execute = commandPhone.execute();
+                LOGGER.info("execute=[{}]", execute);
+        
+                //异步非阻塞方式
+                Future<String> queue = command.queue();
+                String value = queue.get(200, TimeUnit.MILLISECONDS);
+                LOGGER.info("value=[{}]", value);
+        
+        
+                CommandUser commandUser = new CommandUser("张三");
+                String name = commandUser.execute();
+                LOGGER.info("name=[{}]", name);
+            }
+    
+  运行结果：
+  
+  ![](https://camo.githubusercontent.com/f8ae2571dc4e0397a72090974b264fa3ee6a2a5f/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744b665463677931667471346530756b75626a3330707330346774616b2e6a7067)
+  
+  可以看到两个任务分成了两个线程池运行，他们之间互不干扰。
+  
+  获取任务任务结果支持同步阻塞和异步非阻塞方式，可自行选择。
+  
+  它的实现原理其实容易猜到：
+  
+  利用一个 Map 来存放不同业务对应的线程池。
+  
+  通过刚才的构造函数也能证明：
+  
+  ![](https://camo.githubusercontent.com/5420e651871dd6189fe3631ef962cc1652b5757f/68747470733a2f2f7773322e73696e61696d672e636e2f6c617267652f303036744b665463677931667471346936787932716a3330756f3039616468702e6a7067)
+  
+  还要注意的一点是：
+  > 自定义的 Command 并不是一个单例，每次执行需要 new 一个实例，不然会报 This instance can only be executed 
+  once. Please instantiate a new instance. 异常。
+  
+  总结:
+  
+  池化技术确实在平时应用广泛，熟练掌握能提高不少效率。
+  
+  文末的 hystrix 源码：
+  
+  https://github.com/crossoverJie/Java-Interview/tree/master/src/main/java/com/crossoverjie/hystrix
