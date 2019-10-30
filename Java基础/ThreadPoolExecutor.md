@@ -115,3 +115,10 @@
           }
           long end = System.currentTimeMillis();
           LOGGER.info("一共处理了【{}】", (end - start));
+          
+  pool.awaitTermination(1, TimeUnit.SECONDS) 会每隔一秒钟检查一次是否执行完毕（状态为 TERMINATED），当从 while 循环退出时就表明线程池已经完全终止了。
+  
+  ### SpringBoot 使用线程池
+  2018 年了，SpringBoot 盛行；来看看在 SpringBoot 中应当怎么配置和使用线程池。
+  
+  既然用了 SpringBoot ，那自然得发挥 Spring 的特性，所以需要 Spring 来帮我们管理线程池：
