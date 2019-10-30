@@ -122,3 +122,23 @@
   2018 年了，SpringBoot 盛行；来看看在 SpringBoot 中应当怎么配置和使用线程池。
   
   既然用了 SpringBoot ，那自然得发挥 Spring 的特性，所以需要 Spring 来帮我们管理线程池：
+        
+        @Configuration
+        public class TreadPoolConfig {
+                        
+            /**
+             * 消费队列线程
+             * @return
+             */
+            @Bean(value = "consumerQueueThreadPool")
+            public ExecutorService buildConsumerQueueThreadPool(){
+                ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                        .setNameFormat("consumer-queue-thread-%d").build();
+        
+                ExecutorService pool = new ThreadPoolExecutor(5, 5, 0L, TimeUnit.MILLISECONDS,
+                        new ArrayBlockingQueue<Runnable>(5),namedThreadFactory,new ThreadPoolExecutor.AbortPolicy());
+        
+                return pool ;
+            }
+                             
+        }
