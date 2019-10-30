@@ -183,4 +183,128 @@
   
   可以在线程执行前、后、终止状态执行自定义逻辑。
   ### 线程池隔离
+  > 线程池看似很美好，但也会带来一些问题。
   
+  如果我们很多业务都依赖于同一个线程池,当其中一个业务因为各种不可控的原因消耗了所有的线程，导致线程池全部占满。
+  
+  这样其他的业务也就不能正常运转了，这对系统的打击是巨大的。
+  
+  比如我们 Tomcat 接受请求的线程池，假设其中一些响应特别慢，线程资源得不到回收释放；线程池慢慢被占满，最坏的情况就是整个应用都不能提供服务。
+  
+  所以我们需要将线程池进行隔离。
+  
+  通常的做法是按照业务进行划分：
+  
+  > 比如下单的任务用一个线程池，获取数据的任务用另一个线程池。这样即使其中一个出现问题把线程池耗尽，那也不
+  会影响其他的任务运行。
+  
+  ###　hystrix 隔离
+  
+  这样的需求 Hystrix 已经帮我们实现了。
+  >　Hystrix 是一款开源的容错插件，具有依赖隔离、系统容错降级等功能。
+  
+  下面来看看 Hystrix 简单的应用：
+  
+  首先需要定义两个线程池，分别用于执行订单、处理用户。
+  
+        /**
+         * Function:订单服务
+         *
+         * @author crossoverJie
+         *         Date: 2018/7/28 16:43
+         * @since JDK 1.8
+         */
+        public class CommandOrder extends HystrixCommand<String> {
+        
+            private final static Logger LOGGER = LoggerFactory.getLogger(CommandOrder.class);
+        
+            private String orderName;
+        
+            public CommandOrder(String orderName) {
+        
+        
+                super(Setter.withGroupKey(
+                        //服务分组
+                        HystrixCommandGroupKey.Factory.asKey("OrderGroup"))
+                        //线程分组
+                        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("OrderPool"))
+        
+                        //线程池配置
+                        .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
+                                .withCoreSize(10)
+                                .withKeepAliveTimeMinutes(5)
+                                .withMaxQueueSize(10)
+                                .withQueueSizeRejectionThreshold(10000))
+        
+                        .andCommandPropertiesDefaults(
+                                HystrixCommandProperties.Setter()
+                                        .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD))
+                )
+                ;
+                this.orderName = orderName;
+            }
+        
+        
+            @Override
+            public String run() throws Exception {
+        
+                LOGGER.info("orderName=[{}]", orderName);
+        
+                TimeUnit.MILLISECONDS.sleep(100);
+                return "OrderName=" + orderName;
+            }
+        
+        
+        }
+        
+        
+        /**
+         * Function:用户服务
+         *
+         * @author crossoverJie
+         *         Date: 2018/7/28 16:43
+         * @since JDK 1.8
+         */
+        public class CommandUser extends HystrixCommand<String> {
+        
+            private final static Logger LOGGER = LoggerFactory.getLogger(CommandUser.class);
+        
+            private String userName;
+        
+            public CommandUser(String userName) {
+        
+        
+                super(Setter.withGroupKey(
+                        //服务分组
+                        HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                        //线程分组
+                        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserPool"))
+        
+                        //线程池配置
+                        .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
+                                .withCoreSize(10)
+                                .withKeepAliveTimeMinutes(5)
+                                .withMaxQueueSize(10)
+                                .withQueueSizeRejectionThreshold(10000))
+        
+                        //线程池隔离
+                        .andCommandPropertiesDefaults(
+                                HystrixCommandProperties.Setter()
+                                        .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD))
+                )
+                ;
+                this.userName = userName;
+            }
+        
+        
+            @Override
+            public String run() throws Exception {
+        
+                LOGGER.info("userName=[{}]", userName);
+        
+                TimeUnit.MILLISECONDS.sleep(100);
+                return "userName=" + userName;
+            }
+        
+        
+        }
