@@ -20,3 +20,4 @@
 * <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/Java%E5%9F%BA%E7%A1%80/ReentrantLock%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.md"><b>ReentrantLock 实现原理</b></a>
 * <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/Java%E5%9F%BA%E7%A1%80/ConcurrentHashMap%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.md"><b>ConcurrentHashMap 实现原理</b></a>
 * <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/Java%E5%9F%BA%E7%A1%80/ThreadPoolExecutor.md"><b>如何优雅的使用和理解线程池</b></a>
+* <a href="https://github.com/JacksonHuang2019/MyNote/blob/master/Java%E5%9F%BA%E7%A1%80/ThreadPoolExecutor.md"><b>深入理解线程通信</b></a>
